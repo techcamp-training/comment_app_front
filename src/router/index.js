@@ -10,6 +10,7 @@ const router = createRouter({
       name: 'Home',
       component: App,
     },
+  ]
 })
 
 export default router
