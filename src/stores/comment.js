@@ -11,7 +11,7 @@ export const useCommentStore = defineStore('comment', () => {
       const addedComment = response.data;
       comments.value.push(addedComment);
     }catch(error){
-      console.log('つぶやき保存ができませんでした')
+      console.log('コメント保存ができませんでした')
     }
   }
 
@@ -21,7 +21,7 @@ export const useCommentStore = defineStore('comment', () => {
       const allComments = response.data;
       comments.value = allComments;
     }catch(error){
-      console.log('つぶやきの取得ができませんでした');
+      console.log('コメントの取得ができませんでした');
     }
   }
   return { comments, addComment, fetchComment }

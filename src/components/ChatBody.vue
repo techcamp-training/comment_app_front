@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useCommentStore } from '../stores/comment.js';
+import Comment from './Comment.vue';
 
 const props = defineProps({
   chat:Object
@@ -13,13 +14,23 @@ const comment = ref({
 
 const commentStore = useCommentStore();
 
-const submitComment = async() => {
+const submitComment = async(chatId) => {
+  comment.value.chatId = chatId
   try{
     await commentStore.addComment(comment.value);
     comment.value = {content: '', chatId: ''}
   }catch(error){
     console.log('コメントの保存に失敗しました');
   }
+}
+
+onMounted(async()=> {
+  await commentStore.fetchComment();
+})
+
+const filterComment = (chatId) => {
+  //全コメントデータの中からchatIdが合致するものだけを取得する
+  return commentStore.comments.filter(comment => comment.chatId == chatId)
 }
 
 </script>
@@ -39,9 +50,13 @@ const submitComment = async() => {
     <label for="comment">コメント</label>
     <textarea v-model="comment.content" id="comment" placeholder="コメントを入力してください"></textarea>
     <div class="button-container">
-      <button @click="submitComment">送信</button>
+      <button @click.prevent="submitComment(props.chat.id)">送信</button>
     </div>
   </form>
+  <h2>コメント一覧</h2>
+  <div v-for="comment in filterComment(props.chat.id)" :key="comment.id">
+    <Comment :comment="comment"/>
+  </div>
 </template>
 
 <style scoped>
