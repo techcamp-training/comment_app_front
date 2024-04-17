@@ -2,21 +2,17 @@
 import { ref } from 'vue';
 import ChatBody from './ChatBody.vue';
 
-const props = defineProps({
-  chat:Object
-})
-
 const showModal = ref(false);
 
 </script>
 
 <template>
   <div class="chat_card" @click="showModal = true">
-    <h2 class="chat_title">{{ props.chat.title }}</h2>
-    <p class="chat_content">{{ props.chat.content }}</p>
+    <h2 class="chat_title">タイトル</h2>
+    <p class="chat_content">内容</p>
   </div>
   <Modal v-model="showModal">
-    <ChatBody :chat="props.chat"/>
+    <ChatBody/>
   </Modal>
 </template>
 
